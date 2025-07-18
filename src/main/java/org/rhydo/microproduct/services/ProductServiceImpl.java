@@ -65,4 +65,11 @@ public class ProductServiceImpl implements ProductService {
                 .map(existingProduct -> modelMapper.map(existingProduct, ProductResponse.class))
                 .toList();
     }
+
+    @Override
+    public ProductResponse getProduct(Long id) {
+        Product product = productRepository.findByIdAndActiveTrue(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        return modelMapper.map(product, ProductResponse.class);
+    }
 }
